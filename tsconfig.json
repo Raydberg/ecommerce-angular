@@ -3,6 +3,30 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      // "@/*": [
+      //   "./src/app/*"
+      // ],
+      // "@modules": [
+      //   "./src/app/modules/*"
+      // ],
+      "@core/*": [
+        "./src/app/core/*"
+      ],
+      "@admin/*": [
+        "./src/app/modules/admin/*"
+      ],
+      "@auth/*": [
+        "./src/app/modules/auth/*"
+      ],
+      "@products/*": [
+        "./src/app/modules/products/*"
+      ],
+      "@shared": [
+        "./src/app/shared/*"
+      ]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
