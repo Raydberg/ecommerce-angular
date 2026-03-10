@@ -2,6 +2,7 @@
     <figure>
        <img
         [ngSrc]="product().images | productImage"
+        priority
         ngSrcset="200w, 400w, 800w"
         sizes="(max-width: 768px) 50vw, 200px"
         width="200"

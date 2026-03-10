@@ -4,10 +4,14 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-3">
     @for (product of productResource.value()?.products ?? []; track $index) {
-    <product-card [product]="product" />
+        <product-card [product]="product" />
     }@empty {
-    <p>No hay productos</p>
+        <p>No hay productos</p>
     }
-
-
+    
+    
 </div>
+<pagination 
+[pages]="productResource.value()?.pages ?? 0"
+[currentPage]="paginationService.currentPage()"
+/>
