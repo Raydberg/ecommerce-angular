@@ -42,7 +42,7 @@
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
             <li>
-                <a class="btn btn-ghost"  routerLinkActive="text-secondary" routerLink="/gender/men">
+                <a class="btn btn-ghost" routerLinkActive="text-secondary" routerLink="/gender/men">
                     Hombres
                 </a>
             </li>
@@ -60,7 +60,18 @@
             </li>
         </ul>
     </div>
-    <!-- <div class="navbar-end">
-        <a class="btn">Button</a>
-    </div> -->
+    <div class="navbar-end gap-4">
+        @if (authService.authStatus()==='authenticated') {
+        <button routerLink="" class="btn btn-ghost">
+            {{authService.user()?.fullName}}
+        </button>
+        <button (click)="authService.logout()" class="btn btn-sm btn-error">
+            Cerrar sesion
+        </button>
+        }@else if (authService.authStatus()=== "no-authenticated") {
+        <a routerLink="/auth/login" class="btn btn-secondary">Login</a>
+        }@else {
+        <a class="btn btn-ghost">....</a>
+        }
+    </div>
 </div>
