@@ -1,0 +1,33 @@
+<h1 class="text-2xl font-bold">Listado de productos</h1>
+<h3 class="text-xl">Total de productos
+    <span class="text-accent"> {{productsRx.value()?.count}} </span>
+</h3>
+
+<div class="divider"></div>
+
+@if (productsRx.hasValue()) {
+
+<div class="flex gap-2 items-center h-20">
+    <pagination [pages]="productsRx.value().pages" [currentPage]="pagination.currentPage()" />
+
+    <select class="select select-bordered w-32" (change)="productPerPage.set(+selectPerPage.value)" #selectPerPage>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select>
+
+    <div class="flex flex-1">
+        <button routerLink="/admin/products/new" class="btn btn-primary">
+            Agregar
+        </button>
+
+    </div>
+
+</div>
+<product-table [products]="productsRx.value().products " />
+}
+<!--  -->
+@else {
+<p>No hay productos para mostrar</p>
+}

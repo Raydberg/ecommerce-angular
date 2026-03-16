@@ -19,6 +19,8 @@ type AuthStatus = "checking" | "authenticated" | "no-authenticated"
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+    
+
 
     private _authStatus = signal<AuthStatus>("checking")
     private _user = signal<User | null>(null)
@@ -39,6 +41,8 @@ export class AuthService {
     })
 
     user = computed<User | null>(() => this._user())
+
+    isAdmin = computed(() => this.user()?.roles.includes("admin") ?? false)
 
     token = computed(() => this._token())
 
@@ -86,8 +90,6 @@ export class AuthService {
         this._token.set(null)
         localStorage.removeItem("token")
     }
-
-
 
     private handleAuthSuccess(resp: AuthResponse): boolean {
         console.log(resp)

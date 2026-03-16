@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
-import { Router, type CanActivateFn, type CanMatchFn, type Route, type UrlSegment } from '@angular/router';
+import { Router, type CanMatchFn } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
-import { firstValueFrom, map } from 'rxjs';
+import { map } from 'rxjs';
 
 export const notAuthenticatedGuard: CanMatchFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
-
+  // console.log(authService.user())
   return authService.checkStatus().pipe(
     map(isAuthenticated =>
       isAuthenticated
