@@ -17,11 +17,7 @@ export class ProductDetails implements OnInit {
   router = inject(Router);
   fb = inject(FormBuilder)
   productService = inject(ProductsService)
-
-
-
   sizes = ["XS", "S", "M", "L", "XL", "XXL"]
-
 
   productForm = this.fb.group({
     title: ["", [Validators.required]],

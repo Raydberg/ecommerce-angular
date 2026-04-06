@@ -8,10 +8,12 @@ export const notAuthenticatedGuard: CanMatchFn = () => {
   const router = inject(Router);
   // console.log(authService.user())
   return authService.checkStatus().pipe(
-    map(isAuthenticated =>
-      isAuthenticated
+    map(resp => {
+      console.log("isAuthenticated", resp)
+      return resp.user
         ? router.createUrlTree(['/'])
         : true
+    }
     )
   );
 };

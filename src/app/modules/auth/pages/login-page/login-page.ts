@@ -36,10 +36,13 @@ export class LoginPage {
     this.authService.login({
       email: email ?? "",
       password: password ?? ""
-    }).subscribe(isAuthenticated => {
-      if (isAuthenticated) {
-        this.router.navigateByUrl("/")
-        return
+    }).subscribe(success => {
+      if (success) {
+        if (this.authService.isAdmin()) {
+          this.router.navigate(['/admin'])
+        } else {
+          this.router.navigate(['/'])
+        }
       }
       this.hasError.set(true)
     })

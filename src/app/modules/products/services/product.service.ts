@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { User } from '@auth/interfaces/user.interface';
+import { CreateProduct } from '@core/interfaces/create-product.interface';
 import { Gender, Product, ProductsResponse } from '@products/interfaces/product.interface';
 import { Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -76,6 +77,9 @@ export class ProductsService {
 
     createProduct(productLike: Partial<Product>): Observable<Product> {
         return this.http.post<Product>(`${this.baseUrl}/products`, productLike)
+    }
+    createProduct2(newProduct: CreateProduct) {
+        return this.http.post(`${this.baseUrl}/products`, newProduct)
     }
 
 }

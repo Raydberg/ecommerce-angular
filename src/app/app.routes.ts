@@ -17,7 +17,7 @@ export const routes: Routes = [
         path: "admin",
         loadChildren: () => import("./modules/admin/admin.routes"),
         canMatch: [
-            // isAdminGuard
+            isAdminGuard
         ]
     },
     {

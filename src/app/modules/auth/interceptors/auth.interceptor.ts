@@ -8,16 +8,14 @@ export const authInterceptor: HttpInterceptorFn =
   (req: HttpRequest<unknown>, next: HttpHandlerFn):
     Observable<HttpEvent<unknown>> => {
 
-    const token = inject(AuthService).token()
+    const csrfToken = inject(AuthService).csrfToken()
 
-    const isAuthEndpoint = req.url.includes('/auth/login') || req.url.includes('/auth/register')
-
-    if (!token || isAuthEndpoint) {
+    if (!csrfToken) {
       return next(req)
     }
 
     const newReq = req.clone({
-      headers: req.headers.append('Authorization', `Bearer ${token}`)
+      headers: req.headers.append('x-csrf-token', `${csrfToken}`)
     })
 
     return next(newReq);
