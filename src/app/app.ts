@@ -5,12 +5,15 @@ import { RouterOutlet } from '@angular/router';
 import { ProductImageService } from '@products/services/product-image.service';
 import { ProductsService } from '@products/services/product.service';
 import { concatMap, from, map, mergeMap, switchMap, tap, toArray } from 'rxjs';
+import { Toast } from "@shared/components/toast";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ReactiveFormsModule, JsonPipe],
-  template: `<router-outlet />`
-
+  imports: [RouterOutlet, ReactiveFormsModule, JsonPipe, Toast],
+  template: `
+  <router-outlet />
+  <toast/>
+  `
 })
 export class App {
 

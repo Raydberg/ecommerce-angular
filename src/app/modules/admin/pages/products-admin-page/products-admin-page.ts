@@ -16,15 +16,16 @@ export class ProductsAdminPage {
   pagination = inject(PaginationService)
   productService = inject(ProductsService)
   productPerPage = signal(10)
-  productsRx = rxResource({
-    params: () => ({ page: this.pagination.currentPage() - 1, limit: this.productPerPage() }),
-    stream: ({ params }) => {
-      return this.productService.getProducts({
-        offset: params.page * 9,
-        limit: params.limit
-      })
-    }
-  })
+  
+  // productsRx = rxResource({
+  //   params: () => ({ page: this.pagination.currentPage() - 1, limit: this.productPerPage() }),
+  //   stream: ({ params }) => {
+  //     return this.productService.getProducts({
+  //       offset: params.page * 9,
+  //       limit: params.limit
+  //     })
+  //   }
+  // })
 
 
 
