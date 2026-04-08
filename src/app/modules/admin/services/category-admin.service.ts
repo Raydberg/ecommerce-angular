@@ -33,7 +33,7 @@ export class CategoryAdminService {
 
 
   updateCategory(id: string, payload: { name: string, slug?: string }): Observable<CategoryResponse> {
-    return this.http.patch<CategoryResponse>(`${this.baseUrl}/categories`, {
+    return this.http.patch<CategoryResponse>(`${this.baseUrl}/categories/${id}`, {
       ...payload
     })
   }

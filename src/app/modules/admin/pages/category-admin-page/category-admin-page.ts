@@ -1,6 +1,6 @@
 import { CategoryAdminService } from '@admin/services/category-admin.service';
 import { JsonPipe, NgClass } from '@angular/common';
-import { Component, computed, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, model, signal, viewChild } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryResponse } from '@core/interfaces/category.interface';
@@ -20,7 +20,8 @@ import { ToastService } from '@shared/services/toast.service';
 export class CategoryAdminPage {
 
   modal = viewChild<ElementRef<HTMLDialogElement>>("modelCreate")
-  openModal = computed(() => this.modal()?.nativeElement.showModal())
+
+  currentCategoryId = signal<string | null>(null)
 
   readonly cardColors = [
     'bg-primary',
@@ -46,12 +47,36 @@ export class CategoryAdminPage {
     slug: ['']
   })
 
+
+  modalTitle = computed(() => this.currentCategoryId() ? 'Editar categoria' : 'Crear categoria')
+  openModal() {
+    this.currentCategoryId.set(null)
+    this.modal()?.nativeElement.showModal()
+  }
+  closeModal() {
+    this.categoryForm.reset()
+    this.modal()?.nativeElement.close()
+    this.currentCategoryId.set(null)
+  }
+
   onSubmit() {
-    if (!this.categoryForm.valid) {
-      this.categoryForm.markAllAsTouched()
-      return;
+    console.log("Click")
+    // if (!this.categoryForm.valid) {
+    //   this.categoryForm.markAllAsTouched()
+    //   return;
+    // }
+    if (this.currentCategoryId()) {
+      // const { name, slug } = this.categoryForm.value
+      // this.preparedEdit({ id: this.currentCategoryId() ?? '', name: name ?? '', slug: slug ?? '' })
+      this.onUpdate()
+    } else {
+      this.onCreate()
     }
 
+
+  }
+
+  onCreate() {
     const rawValues = this.categoryForm.getRawValue()
     const name = rawValues.name.trim()
     const slug = rawValues.slug?.trim()
@@ -66,27 +91,45 @@ export class CategoryAdminPage {
         this.toastService.show(`Categoria ${newCategory.name} creada`, 'success')
         this.categoryResource.reload()
         this.categoryForm.reset()
-      },
-      error: () => {
-        this.categoryForm.reset()
+        this.closeModal()
       }
     })
   }
-
 
   onDelete(id: string) {
     this.categoryService.deleteCategory(id).subscribe({
       next: (response) => {
         this.categoryResource.set(this.categoryResource.value()?.filter(category => category.id !== id))
-        this.toastService.show(`Categoria ${response.name} eliminado exitosamente`)
+        this.toastService.show(`Categoria ${response.name} eliminado exitosamente`, 'success')
       }
     })
   }
 
-  onEdit(category: CategoryResponse) {
-    console.log("Editar", category)
-
+  preparedEdit(category: CategoryResponse) {
+    this.currentCategoryId.set(category.id)
+    this.categoryForm.setValue({
+      name: category.name,
+      slug: category.slug
+    })
+    this.modal()?.nativeElement.showModal()
   }
-
+  onUpdate() {
+    const { name, slug } = this.categoryForm.value
+    console.log("Los nuevos valores son", {
+      name, slug
+    })
+    this.categoryService.updateCategory(this.currentCategoryId()!, { name: name!, slug }).subscribe({
+      next: (response) => {
+        this.categoryResource.update((currentCategories) => {
+          if (!currentCategories) return [];
+          return currentCategories.map(category =>
+            (category.id === response.id) ? response : category
+          )
+        })
+        this.toastService.show(`Categoria ${response.name} actualizada`)
+        this.closeModal()
+      }
+    })
+  }
 
 }
