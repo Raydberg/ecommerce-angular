@@ -1,12 +1,10 @@
 import { User } from "@auth/interfaces/user.interface";
 
-export interface ProductsResponse {
-    count:    number;
-    pages:    number;
-    products: Product[];
-}
+// export interface ProductsResponse {
+//     products: Product[];
+// }
 
-export interface Product {
+export interface ProductsResponse {
     id:          string;
     title:       string;
     price:       number;

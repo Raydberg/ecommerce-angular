@@ -2,10 +2,15 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '@auth/services/auth.service';
+import { NgIcon, provideIcons } from "@ng-icons/core";
+import { heroExclamationTriangle } from '@ng-icons/heroicons/outline';
 
 @Component({
   selector: 'login-page',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, NgIcon],
+  viewProviders: [provideIcons({
+    heroExclamationTriangle
+  })],
   templateUrl: './login-page.html',
 })
 export class LoginPage {

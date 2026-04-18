@@ -6,11 +6,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryResponse } from '@core/interfaces/category.interface';
 import { NgIcon, provideIcons } from '@ng-icons/core'
 import { heroPencilSquare, heroTrash } from '@ng-icons/heroicons/outline';
+import { PaginationService } from '@shared/components/pagination/pagination.service';
 import { ToastService } from '@shared/services/toast.service';
+import { Pagination } from "@shared/components/pagination/pagination";
 
 @Component({
   selector: 'category-admin-page',
-  imports: [NgClass, ReactiveFormsModule, NgIcon],
+  imports: [NgClass, ReactiveFormsModule, NgIcon, Pagination],
   viewProviders: [provideIcons({
     heroPencilSquare,
     heroTrash
@@ -34,11 +36,20 @@ export class CategoryAdminPage {
 
   private readonly categoryService = inject(CategoryAdminService)
   private readonly toastService = inject(ToastService)
+  private readonly paginationService = inject(PaginationService)
+  currentPage = this.paginationService.currentPage;
 
   categoryResource = rxResource({
-    stream: () => {
-      return this.categoryService.getCategories()
+    params: () => this.paginationService.currentPage(),
+    stream: ({ params: page }) => {
+      return this.categoryService.getCategories(page)
     }
+  })
+
+  totalPages = computed(() => {
+    const meta = this.categoryResource.value()?.meta
+    if (!meta) return;
+    return Math.ceil(meta.total / meta.limit)
   })
 
   fb = inject(FormBuilder)
@@ -99,7 +110,13 @@ export class CategoryAdminPage {
   onDelete(id: string) {
     this.categoryService.deleteCategory(id).subscribe({
       next: (response) => {
-        this.categoryResource.set(this.categoryResource.value()?.filter(category => category.id !== id))
+        this.categoryResource.update(current => {
+          if (!current) return undefined;
+          return {
+            ...current,
+            data: current.data.filter(category => category.id !== id)
+          }
+        })
         this.toastService.show(`Categoria ${response.name} eliminado exitosamente`, 'success')
       }
     })
@@ -120,12 +137,18 @@ export class CategoryAdminPage {
     })
     this.categoryService.updateCategory(this.currentCategoryId()!, { name: name!, slug }).subscribe({
       next: (response) => {
-        this.categoryResource.update((currentCategories) => {
-          if (!currentCategories) return [];
-          return currentCategories.map(category =>
-            (category.id === response.id) ? response : category
-          )
+        this.categoryResource.update(current => {
+          if (!current) return undefined;
+
+          return {
+            ...current,
+            data: current.data.map(category =>
+              (category.id === response.id) ? response : category
+            )
+          }
+
         })
+
         this.toastService.show(`Categoria ${response.name} actualizada`)
         this.closeModal()
       }

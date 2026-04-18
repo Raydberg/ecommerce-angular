@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withViewTransitions()),
     provideNgIconsConfig({
-      size: "2.3rem"
+      size: "16px"
     },
       withExceptionLogger()
     ),

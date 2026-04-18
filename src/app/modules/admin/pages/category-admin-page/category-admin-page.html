@@ -1,6 +1,6 @@
 <h1 class="text-2xl font-bold">Listado de Categorias</h1>
 <h3 class="text-xl">Total de Categorias
-    <span class="text-accent"> {{categoryResource.value()?.length}} </span>
+  <span class="text-accent"> {{categoryResource.value()?.meta?.total}} </span>
 </h3>
 
 <div class="divider"></div>
@@ -8,57 +8,64 @@
 
 
 <div class="mx-10">
-    <button class="btn btn-outline btn-accent mb-4" (click)="openModal()">
-        Añadir Categoria
-    </button>
-    <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 "> -->
-    <div class=" grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4 ">
+  <button class="btn btn-outline btn-accent mb-4" (click)="openModal()">
+    Añadir Categoria
+  </button>
+  <!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 "> -->
+  <div class=" grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4 ">
 
-        @for (category of categoryResource.value(); track category.id;let i = $index) {
-        <div class="card  text-primary-content w-full" [ngClass]="cardColors[i % cardColors.length]">
-            <div class="card-body">
-                <h2 class="card-title"> {{category.name}} </h2>
-                <p class="badge badge-soft badge-info">
-                    {{category.slug}}
-                </p>
-                <div>
-                    <button class="cursor-pointer" (click)="onDelete(category.id)">
-                        <ng-icon name="heroTrash" />
-                    </button>
-                    <button class="cursor-pointer" (click)="preparedEdit(category)">
-                        <ng-icon name="heroPencilSquare" />
-                    </button>
-                </div>
-            </div>
+    @for (category of categoryResource.value()?.data; track category.id;let i = $index) {
+    <div class="card  text-primary-content w-full" [ngClass]="cardColors[i % cardColors.length]">
+      <div class="card-body">
+        <h2 class="card-title"> {{category.name}} </h2>
+        <p class="badge badge-soft badge-info">
+          {{category.slug}}
+        </p>
+        <div>
+          <button class="cursor-pointer" (click)="onDelete(category.id)">
+            <ng-icon name="heroTrash" />
+          </button>
+          <button class="cursor-pointer" (click)="preparedEdit(category)">
+            <ng-icon name="heroPencilSquare" />
+          </button>
         </div>
-        }
-
+      </div>
     </div>
+    }
+
+  </div>
+
+  @if (totalPages()! > 1) {
+  <div class="mt-8">
+    <pagination [pages]="totalPages()!" [currentPage]="currentPage()" />
+  </div>
+  }
+
 </div>
 
 
 
-<dialog  #modelCreate class="modal modal-bottom sm:modal-middle">
-    <div class="modal-box">
-        <h3 class="text-lg font-bold">Crea una nueva categoria!</h3>
-        <div class="modal-action px-10 ">
-            <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3 w-full">
-                <button type="button" (click)="closeModal()">
-                    <ng-icon name="heroTrash" />
-                </button>
-                <label class="input input-bordered flex items-center w-full gap-2">
-                    <input formControlName="name" type="text" autocomplete="off" placeholder="Nombre">
-                </label>
+<dialog #modelCreate class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">Crea una nueva categoria!</h3>
+    <div class="modal-action px-10 ">
+      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3 w-full">
+        <button type="button" (click)="closeModal()">
+          <ng-icon name="heroTrash" />
+        </button>
+        <label class="input input-bordered flex items-center w-full gap-2">
+          <input formControlName="name" type="text" autocomplete="off" placeholder="Nombre">
+        </label>
 
-                <fieldset class="fieldset w-full">
+        <fieldset class="fieldset w-full">
 
-                    <input formControlName="slug" type="text" class="input" placeholder="Slug" />
-                    <p class="label">Optional</p>
-                </fieldset>
-                <button class="btn btn-primary">
-                    {{modalTitle()}}
-                </button>
-            </form>
-        </div>
+          <input formControlName="slug" type="text" class="input" placeholder="Slug" />
+          <p class="label">Optional</p>
+        </fieldset>
+        <button class="btn btn-primary">
+          {{modalTitle()}}
+        </button>
+      </form>
     </div>
+  </div>
 </dialog>

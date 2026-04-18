@@ -1,11 +1,11 @@
 import { Component, inject, input, OnInit } from '@angular/core';
-import { Product } from '@products/interfaces/product.interface';
 import { ProductCarousel } from "@products/components/product-carousel/product-carousel";
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormUtils } from '@core/utils/form.utils';
 import { FormErrorLabel } from "@shared/components/form-error-label/form-error-label";
 import { ProductsService } from '@products/services/product.service';
 import { Router } from '@angular/router';
+import { ProductsResponse } from '@products/interfaces/product.interface';
 
 @Component({
   selector: 'product-details',
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './product-details.html',
 })
 export class ProductDetails implements OnInit {
-  product = input.required<Product>()
+  product = input.required<ProductsResponse>()
   router = inject(Router);
   fb = inject(FormBuilder)
   productService = inject(ProductsService)
@@ -34,7 +34,7 @@ export class ProductDetails implements OnInit {
     this.setFormValue(this.product())
   }
 
-  setFormValue(formLike: Partial<Product>) {
+  setFormValue(formLike: Partial<ProductsResponse>) {
     // this.productForm.reset(formLike as any)
     this.productForm.patchValue(formLike as any);
     this.productForm.patchValue({ tags: formLike.tags?.join(",") } as any)
@@ -71,7 +71,7 @@ export class ProductDetails implements OnInit {
         .filter(Boolean);
     }
 
-    const productLike: Partial<Product> = {
+    const productLike: Partial<ProductsResponse> = {
       ...(formValue as any),
       tags: normalizedTags
     }

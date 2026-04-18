@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { CategoryResponse } from '@core/interfaces/category.interface';
+import { PaginateResponse } from '@core/interfaces/http-response.interface';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -15,8 +16,12 @@ export class CategoryAdminService {
 
 
 
-  getCategories(): Observable<CategoryResponse[]> {
-    return this.http.get<CategoryResponse[]>(`${this.baseUrl}/categories`)
+  getCategories(page: number = 1): Observable<PaginateResponse<CategoryResponse>> {
+    const limit = 10
+    const offset = (page - 1) * limit
+
+
+    return this.http.get<PaginateResponse<CategoryResponse>>(`${this.baseUrl}/categories?limit=${limit}&offset=${offset}`)
   }
 
   createCategory(payload: { name: string, slug?: string }): Observable<CategoryResponse> {

@@ -14,6 +14,4 @@ export class Pagination {
     return Array.from({ length: this.pages() }, (_, i) => i + 1)
   })
 
-
-
 }

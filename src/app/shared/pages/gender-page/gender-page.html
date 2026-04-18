@@ -4,16 +4,16 @@
 
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-3">
-    
-    @for (product of productRx.value()?.products ?? []; track $index) {
-        <product-card [product]="product" />
-    }@empty {
-        <p>No hay productos</p>
-    }
-    
-    
+
+  @if (productRx.hasValue() ) {
+
+  @for (product of productRx.value()?.data; track $index) {
+  <product-card [product]="product" />
+  }
+  }@else {
+  <p>No hay productos</p>
+  }
+
+
 </div>
-<pagination 
-    [pages]="productRx.value()?.pages ?? 0"
-    [currentPage]="paginationService.currentPage()"
-/>
+<!-- <pagination [pages]="productRx.value()?.pages ?? 0" [currentPage]="paginationService.currentPage()" /> -->

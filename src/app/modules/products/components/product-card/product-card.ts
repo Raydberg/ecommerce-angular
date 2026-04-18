@@ -1,7 +1,7 @@
 import { SlicePipe, NgOptimizedImage } from '@angular/common';
 import { Component, effect, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Product, ProductsResponse } from '@products/interfaces/product.interface';
+import { ProductsResponse } from '@products/interfaces/product.interface';
 import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 
 @Component({
@@ -11,7 +11,7 @@ import { ProductImagePipe } from '@products/pipes/product-image.pipe';
 })
 export class ProductCard {
 
-  product = input.required<Product>()
+  product = input.required<ProductsResponse>()
 
 
 
