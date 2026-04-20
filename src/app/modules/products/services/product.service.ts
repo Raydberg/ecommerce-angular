@@ -17,7 +17,7 @@ interface Options {
 
 const emptyProduct: ProductsResponse = {
   id: 'new',
-  title: '',
+  name: '',
   price: 0,
   description: '',
   slug: '',
@@ -38,7 +38,7 @@ export class ProductsService {
   getProducts(options: Options): Observable<PaginateResponse<ProductsResponse>> {
 
 
-    const { limit = 9, gender = "", offset = 0 } = options
+    const { limit = 9, offset = 0 } = options
 
     // const key = `${limit}-${offset}-${gender}`
     // if (this.productsCache.has(key)) {
@@ -51,13 +51,12 @@ export class ProductsService {
       params: {
         limit,
         offset,
-        gender
+        // gender
       }
     })
-    // .pipe(
-    //   tap(console.log),
-    //   tap(resp => this.productsCache.set(key, resp))
-    // )
+      .pipe(
+        tap(console.log),
+      )
   }
 
   getProductByIdSlug(slug: string): Observable<ProductsResponse> {

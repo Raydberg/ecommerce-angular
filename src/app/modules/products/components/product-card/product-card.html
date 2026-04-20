@@ -7,14 +7,14 @@
         sizes="(max-width: 768px) 50vw, 200px"
         width="200"
         height="200"
-        [alt]="product().title"
+        [alt]="product().name"
     />
     </figure>
     <div class="card-body">
-        <h2 
+        <h2
         [routerLink]="['/product',product().slug]"
         class="card-title font-montserrat text-accent text-xl hover:underline cursor-pointer">
-            {{product().title}}
+            {{product().name}}
         </h2>
         <p> {{product().description | slice:0:70}}...</p>
         <div class="card-actions justify-end">

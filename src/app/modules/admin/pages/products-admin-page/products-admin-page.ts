@@ -5,6 +5,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { Pagination } from "@shared/components/pagination/pagination";
 import { PaginationService } from '@shared/components/pagination/pagination.service';
 import { RouterLink } from "@angular/router";
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'products-admin-page',
@@ -16,16 +17,16 @@ export class ProductsAdminPage {
   pagination = inject(PaginationService)
   productService = inject(ProductsService)
   productPerPage = signal(10)
-  
-  // productsRx = rxResource({
-  //   params: () => ({ page: this.pagination.currentPage() - 1, limit: this.productPerPage() }),
-  //   stream: ({ params }) => {
-  //     return this.productService.getProducts({
-  //       offset: params.page * 9,
-  //       limit: params.limit
-  //     })
-  //   }
-  // })
+
+  productsRx = rxResource({
+    params: () => ({ page: this.pagination.currentPage() - 1, limit: this.productPerPage() }),
+    stream: ({ params }) => {
+      return this.productService.getProducts({
+        offset: params.page * 9,
+        limit: params.limit
+      })
+    }
+  })
 
 
 

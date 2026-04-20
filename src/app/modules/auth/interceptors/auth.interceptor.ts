@@ -1,7 +1,10 @@
-import type { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { HttpContext, HttpContextToken, HttpInterceptor, type HttpEvent, type HttpHandlerFn, type HttpInterceptorFn, type HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '@auth/services/auth.service';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
+
+
+export const BYPASS_AUTH = new HttpContextToken<boolean>(() => false)
 
 
 export const authInterceptor: HttpInterceptorFn =
@@ -9,6 +12,12 @@ export const authInterceptor: HttpInterceptorFn =
     Observable<HttpEvent<unknown>> => {
 
     const authService = inject(AuthService)
+
+
+    if (req.context.get(BYPASS_AUTH)) {
+      return next(req)
+    }
+
     const csrf = authService.csrfToken()
     const request = req.clone({
       withCredentials: true,
@@ -20,6 +29,7 @@ export const authInterceptor: HttpInterceptorFn =
         if (error.status === 401 && !isCheckStatus) {
           return authService.checkStatus().pipe(
             switchMap(() => {
+
 
               const newCsrf = authService.csrfToken()
               const retryReq = request.clone({

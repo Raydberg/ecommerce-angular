@@ -6,23 +6,25 @@ import { User } from "@auth/interfaces/user.interface";
 
 export interface ProductsResponse {
     id:          string;
-    title:       string;
+    name:       string;
     price:       number;
     description: string;
     slug:        string;
     stock:       number;
-    sizes:       Size[];
-    gender:      Gender;
-    tags:        Tag[];
+    // sizes:       Size[];
+    sizes:       string[];
+    // gender:      Gender;
+    gender:      string;
+    tags:        string[] | null;
     images:      string[];
     user:        User;
 }
 
 export enum Gender {
-    Kid = "kid",
-    Men = "men",
-    Unisex = "unisex",
-    Women = "women",
+    Kid = "KID",
+    Men = "MEN",
+    Unisex = "UNISEX",
+    Women = "WOMEN",
 }
 
 export enum Size {
@@ -34,9 +36,9 @@ export enum Size {
     Xxl = "XXL",
 }
 
-export enum Tag {
-    Hats = "hats",
-    Hoodie = "hoodie",
-    Jacket = "jacket",
-    Shirt = "shirt",
-}
+// export enum Tag {
+//     Hats = "hats",
+//     Hoodie = "hoodie",
+//     Jacket = "jacket",
+//     Shirt = "shirt",
+// }

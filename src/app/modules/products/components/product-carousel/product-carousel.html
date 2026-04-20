@@ -5,9 +5,9 @@
         <!-- Slides -->
         @for (image of images(); track $index) {
         <div class="swiper-slide">
-            <img 
-            [ngSrc]="image |productImage"  
-            priority         
+            <img
+            [ngSrc]="image"
+            priority
             ngSrcset="200w, 400w, 800w"
             width="2000"
             height="2000"
@@ -26,4 +26,8 @@
 
     <!-- If we need scrollbar -->
     <div class="swiper-scrollbar"></div>
+
+    <pre>
+      {{ images() | json }}
+    </pre>
 </div>

@@ -10,21 +10,13 @@ const placeholderImage = "./assets/images/no-image.jpg"
 export class ProductImagePipe implements PipeTransform {
 
   transform(value: string | string[]): string {
-
-    if (typeof value === 'string') {
-      return `${baseUrl}/files/product/${value}`
-    }
-
+    console.log("PIpe image", value)
     if (Array.isArray(value)) {
-      return `${baseUrl}/files/product/${value[0]}`
+      return value[0]
     }
 
     return ""
-    // return (value.length > 1) ?
-    //   `${baseUrl}/files/product/${value[0]}` :
-    //   (value.length === 0) ?
-    //     placeholderImage :
-    //     `${baseUrl}/files/product/${value}`
+
   }
 
 }

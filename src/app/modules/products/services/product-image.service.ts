@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { BYPASS_AUTH } from '@auth/interceptors/auth.interceptor';
 import { tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -33,10 +34,11 @@ export class ProductImageService {
     })
   }
 
-  uploadImageInBucket(signedUrl: string, imageType: File['type']) {
-    return this.http.put(signedUrl, imageType, {
+  uploadImageInBucket(signedUrl: string, file: File) {
+    return this.http.put(signedUrl, file, {
+      context: new HttpContext().set(BYPASS_AUTH, true),
       headers: {
-        "Content-Type": imageType
+        "Content-Type": file.type
       }
     })
   }
