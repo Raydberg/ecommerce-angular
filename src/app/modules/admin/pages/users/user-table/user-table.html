@@ -1,0 +1,67 @@
+<div class="overflow-x-auto">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Telefono</th>
+        <th>Acciones</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users(); track user.id) {
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" class="checkbox" />
+          </label>
+        </th>
+        <td>
+          <div class="flex items-center gap-3">
+
+            <div>
+              <a class="font-bold hover:text-accent transition-colors ">
+                {{user.fullName}}
+              </a>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="flex items-center gap-3">
+
+            <div>
+              <a class="font-bold hover:text-accent transition-colors ">
+                {{user.email}}
+              </a>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="flex items-center gap-3">
+
+            <div>
+              <a class="font-bold hover:text-accent transition-colors ">
+                <!-- {{user.fullName}} -->
+                 9595959595
+              </a>
+            </div>
+          </div>
+        </td>
+        <th>
+          <a [routerLink]="['/admin/users',user.id]" class="btn btn-ghost text-accent btn-xs">
+            Detalles
+          </a>
+        </th>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+</div>

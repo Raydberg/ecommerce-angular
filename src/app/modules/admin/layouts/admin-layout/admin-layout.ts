@@ -3,7 +3,7 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
 import { NgIcon, provideIcons } from "@ng-icons/core";
-import { heroArrowRightOnRectangle, heroChartBar, heroChartPie, heroRectangleStack, heroUser } from '@ng-icons/heroicons/outline';
+import { heroArrowRightOnRectangle, heroChartBar, heroChartPie, heroRectangleStack, heroUser, heroUsers } from '@ng-icons/heroicons/outline';
 import { heroInboxSolid } from '@ng-icons/heroicons/solid';
 
 @Component({
@@ -14,7 +14,8 @@ import { heroInboxSolid } from '@ng-icons/heroicons/solid';
     heroRectangleStack,
     heroChartPie,
     heroArrowRightOnRectangle,
-    heroUser
+    heroUser,
+    heroUsers
   })],
   templateUrl: './admin-layout.html',
 })

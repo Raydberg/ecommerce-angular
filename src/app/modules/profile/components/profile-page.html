@@ -1,0 +1,73 @@
+<div class="avatar">
+  <div class="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
+    <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+  </div>
+</div>
+
+
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <!-- Datos generales -->
+  <div class="flex flex-col gap-2">
+    <h2 class="text-2xl font-bold h-12">Datos generales</h2>
+
+    <div class="badge badge-primary">
+      {{ authService.isAdmin() ? 'Administrador':'Usuario' }}
+    </div>
+
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Nombre Completo</legend>
+      <input type="text" placeholder="Nombre" class="input input-bordered w-full" formControlName="fullName"
+        [class.border-red-500]="profileForm.get('fullName')?.errors ?? false" />
+      <form-error-label [control]="profileForm.get('fullName')!" />
+    </fieldset>
+
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Correo</legend>
+      <input formControlName="email" type="text" placeholder="Email" class="input input-bordered w-full"
+        [class.border-red-500]="profileForm.get('email')?.errors ?? false" />
+      <form-error-label [control]="profileForm.get('email')!" />
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend">Estado</legend>
+      <select class="select select-md" formControlName="isActive">
+        <option [ngValue]="true">Activo</option>
+        <option [ngValue]="false">Desabilitado</option>
+      </select>
+      <form-error-label [control]="profileForm.get('isActive')!" />
+    </fieldset>
+    <div class="flex gap-2 justify-end mt-4">
+
+      @if(!isEditing()){
+      <button class="btn btn-secondary" type="button" (click)="onEdit()">
+        <ng-icon name="heroPencilSquare" />
+        Editar Perfil
+      </button>
+      }
+
+      @if (isEditing()) {
+      <button class="btn btn-ghost" type="button" (click)="onCancel()">
+        Cancelar
+      </button>
+      <button class="btn btn-success" type="submit" [disabled]="profileForm.invalid || profileForm.pristine">
+        Guardar Cambios
+      </button>
+
+      }
+
+    </div>
+  </div>
+</form>
+
+<!--
+<pre>
+  {{authService.user() |json }}
+</pre> -->
+
+
+<pre>
+  {{profileForm.value |json }}
+  {{profileForm.pristine |json }}
+</pre>
